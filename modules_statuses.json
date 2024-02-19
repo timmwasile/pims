@@ -1,0 +1,21 @@
+{
+    "Applicant": true,
+    "UserManagement": true,
+    "User": true,
+    "Permission": true,
+    "Role": true,
+    "ActivityLog": true,
+    "Recruitment": true,
+    "Notification": true,
+    "Users": true,
+    "ActivityLogs": true,
+    "Recruitments": true,
+    "Notifications": true,
+    "Applicants": true,
+    "Admins": true,
+    "Categories": true,
+    "Skills": true,
+    "JobPosts": true,
+    "JobLevels": true,
+    "Divisions": true
+}

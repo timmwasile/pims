@@ -1,0 +1,25 @@
+{
+  "name": "tanrep/users",
+  "description": "",
+  "authors": [
+    {
+      "name": "Muhammad Mwinchande",
+      "email": "ammwinchande@gmail.com"
+    }
+  ],
+  "require": {
+    "spatie/laravel-permission": "^5.0"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [],
+      "aliases": {
+      }
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "Modules\\Users\\": ""
+    }
+  }
+}

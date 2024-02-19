@@ -1,0 +1,23 @@
+{
+    "name": "tanrep/recruitments",
+    "description": "",
+    "authors": [
+        {
+            "name": "Muhammad Mwinchande",
+            "email": "ammwinchande@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Recruitments\\": ""
+        }
+    }
+}

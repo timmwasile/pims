@@ -1,0 +1,11 @@
+php artisan infyom:scaffold QualificationCategory --fromTable --tableName=qualification_categories
+php artisan infyom:scaffold QualificationItem --fromTable --tableName=qualification_items
+php artisan infyom:scaffold JobCategory --fromTable --tableName=job_categories
+php artisan infyom:scaffold JobLevel --fromTable --tableName=job_levels
+php artisan infyom:scaffold JobType --fromTable --tableName=job_types
+php artisan infyom:scaffold JobPosts --fromTable --tableName=job_posts
+php artisan infyom:scaffold EducationLevel --fromTable --tableName=education_levels
+php artisan infyom:scaffold Skill --fromTable --tableName=skills
+php artisan infyom:scaffold SkillLevel --fromTable --tableName=skill_levels
+php artisan infyom:scaffold MinimumQualification --fromTable --tableName=minimum_qualifications
+

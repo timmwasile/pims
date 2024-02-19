@@ -1,0 +1,23 @@
+{
+    "name": "tanrep/notifications",
+    "description": "",
+    "authors": [
+        {
+            "name": "Muhammad Mwinchande",
+            "email": "ammwinchande@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Notifications\\": ""
+        }
+    }
+}
