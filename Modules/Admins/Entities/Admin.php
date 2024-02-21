@@ -102,4 +102,5 @@ class Admin extends Authenticatable
      public function companyId(){
         return $this->belongsTo(Company::class, 'company_id');
     }
+
 }

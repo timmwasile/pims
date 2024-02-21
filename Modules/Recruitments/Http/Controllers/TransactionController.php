@@ -62,6 +62,7 @@ class TransactionController extends AppBaseController
      */
     public function index(TransactionDataTable $TransactionDataTable)
     {
+
         abort_if(Gate::denies('transaction_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         return $TransactionDataTable->render('backend.transactions.index');
     }
@@ -100,7 +101,7 @@ class TransactionController extends AppBaseController
     public function update($id, UpdateActivityRequest $request)
     {
         $Activity = $this->ActivityTransactionRepository->find($id);
-       
+
         if (empty($Activity)) {
             Flash::error('Activity not found');
 
@@ -147,7 +148,7 @@ class TransactionController extends AppBaseController
     }
 
 
-    
+
     /**
      * Clear Loan Balance.
      *
@@ -162,7 +163,7 @@ class TransactionController extends AppBaseController
         return view('backend.transactions.reports.index',compact('customers'));
 
     }
-     
+
  /**
      * Store_balance the specified Loan in storage.
      *
@@ -192,7 +193,7 @@ class TransactionController extends AppBaseController
                 "(transactions.payment_date >= ? AND transactions.payment_date <= ?)",
                 [
                     $request->started_at,
-                    $request->ended_at 
+                    $request->ended_at
                 ]
             )
                         ->where('companies.id', auth()->user()->company_id)
@@ -213,15 +214,15 @@ class TransactionController extends AppBaseController
                 "(transactions.payment_date >= ? AND transactions.payment_date <= ?)",
                 [
                     $request->started_at,
-                    $request->ended_at 
+                    $request->ended_at
                 ]
             )
                         ->where('transactions.customer_id', $request->customer_id)
                         ->get()
                         ;
        }
-       
-        
+
+
                          $total = $transactions -> pluck('amount')->sum();
         $viewContent = FacadesView::make('backend.transactions.reports.print',compact(
             'transactions','total','imagePath','request'

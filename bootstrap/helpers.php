@@ -2,6 +2,7 @@
 
 namespace app\bootstrap;
 
+use Modules\Admins\Entities\Admin;
 use Modules\Recruitments\Entities\Plot;
 use Modules\Recruitments\Entities\Project;
 use Modules\Admins\Entities\Company;
@@ -49,8 +50,12 @@ function plotNumber(string $type, int $id): string
     $project=Project::where('id',$plot_details->project_id)->first();
     $company=Company::where('id',$plot_details->company_id)->first()->name;
     $starter = str_pad($project->id, 3, '0', STR_PAD_LEFT). substr(strtoupper($project->initial), 0, 3);
-    $end = str_pad($id, 4, '0', STR_PAD_LEFT);
 
+    $admin = Admin::where('id', auth()->user()->id)->with('companyId')->first();
+    $company = $admin->companyId->name;
+    $count=Transaction::where('id',$admin->companyId->id)->get()->count();
+
+    $end = str_pad($count, 4, '0', STR_PAD_LEFT);
 
     switch (strtolower($type)) {
         case 'plot_number':
@@ -77,10 +82,12 @@ function plotNumber(string $type, int $id): string
  */
 function transactionNumber(string $type, int $id): string
 {
-   $starter = date('my');
-    $end = str_pad($id, 4, '0', STR_PAD_LEFT);
-    $transaction=Transaction::where('id',$id)->first()->company_id;
-    $company=Company::where('id',$transaction)->first()->name;
+    $admin = Admin::where('id', auth()->user()->id)->with('companyId')->first();
+    $company = $admin->companyId->name;
+    $count=Transaction::where('id',$admin->companyId->id)->get()->count();
+
+    $starter = date('my');
+    $end = str_pad($count+1, 4, '0', STR_PAD_LEFT);
 
     switch (strtolower($type)) {
         case 'transaction_number':

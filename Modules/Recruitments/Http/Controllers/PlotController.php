@@ -18,6 +18,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View as FacadesView;
+use Modules\Admins\Entities\Admin;
 use Modules\Recruitments\DataTables\LoanDataTable;
 use Modules\Recruitments\DataTables\PlotDataTable;
 use Modules\Recruitments\Entities\Customer;
@@ -70,7 +71,7 @@ use MediaUploadingTrait;
      */
     public function index(PlotDataTable $PlotDataTable)
     {
-       
+
         abort_if(Gate::denies('plot_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return $PlotDataTable->render('backend.plots.index');
@@ -102,20 +103,15 @@ use MediaUploadingTrait;
     {
         $input = $request->all();
         $plot = $this->PlotRepository->create($input);
-       
-         if($request->hasFile('file_name') && $request->file('file_name')->isValid()){
-            $plot->addMediaFromRequest('file_name')->toMediaCollection('file_name');
-        }
-        if ($media = $request->input('ck-media', false)) {
-            Media::whereIn('id', $media)->update(['model_id' => $plot->id]);
-        }
+
+
         $plot->update(['number'=>plotNumber('plotNumber', $plot->id)]);
 if($request->payment_id < 3){
     $data = Plot::where('id',$plot->id)->first();
         $customer = Customer::where('id',$data->customer_id)->first();
 
         $project = Project::where('id',$data->project_id)->first();
-        $inserts = [ 
+        $inserts = [
             'created_by'=>auth()->user()->id,
             'amount'=>floatval(preg_replace("/[^-0-9\.]/","",$data->paid_amount)),
             'customer_id'=>$data->customer_id,
@@ -133,12 +129,27 @@ if($request->payment_id < 3){
     ];
 
         $transaction = $this->TransactionRepository->create($inserts);
-        $transaction->update(['number'=>transactionNumber('transactionNumber', $transaction->id)]);
+        $transaction->update(['number' => transactionNumber('transactionNumber', $transaction->id)]);
+
+        if ($request->hasFile('file_name') && $request->file('file_name')->isValid()) {
+            $media = $plot->addMediaFromRequest('file_name')->toMediaCollection('file_name');
+
+            // Update the number field of the associated media entry with the transaction ID
+            $media->update(['number' => $transaction->id]);
+        }
+
+        if ($media = $request->input('ck-media', false)) {
+            // Update the number field of the selected media entries with the transaction ID
+            Media::whereIn('id', $media)->update([
+                'model_id' => $plot->id,
+                'number' => $transaction->id
+            ]);
+        }
 
         Plot::where('id',)->update(['number'=>transactionNumber('transactionNumber', $plot->id)]);
 
 }
-        
+
 
         Flash::success('Plot saved successfully.');
 
@@ -152,41 +163,33 @@ if($request->payment_id < 3){
      *
      * @return Application|RedirectResponse|Response|Redirector
      */
-    public function show($id)
-    {
-        abort_if(Gate::denies('plot_view'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+   public function show($id)
+{
+    abort_if(Gate::denies('plot_view'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $plot = $this->PlotRepository->find($id);
-        
-        $transactions = Transaction::
-                        select('transactions.number as transaction_number','transactions.amount as amount','transactions.payment_date as payment_date','transactions.description as description','transactions.reference as reference','customers.name as customer','projects.name as project','plots.number as plot','media.file_name as file_name','transactions.id as id')
-                        ->leftjoin('projects', 'projects.id', '=', 'transactions.project_id')
-                        ->leftjoin('plots', 'plots.id', '=', 'transactions.plot_id')
-                        ->leftjoin('customers', 'customers.id', '=', 'transactions.customer_id')
-                        ->leftjoin('media', 'media.number', '=', 'transactions.id')
-                        ->where('transactions.plot_id', $id)
-                        ->orderBy('transactions.id', 'desc')
-                        ->get()
-                        ;
-        $media = Media::where('model_id',$id)->first()->media_id;
-        // dd($id);
-        if(!$media){
-        $media = Media::where('model_id',auth()->user()->company_id)->first();
-                   }
-                //    dd(Storage::url($media->id.'/'.$media->file_name));
-        $imagePath = public_path().'/storage/'.$media->id.'/'.$media->file_name;
-        // $link = Storage::url($media->id.'/'.$media->file_name);
-        $link = $media->getUrl();
-        // dd($link);
-        if (empty($plot)) {
-            Flash::error('plot not found');
+    $plot = $this->PlotRepository->find($id);
 
-            return redirect(route('admin.plots.index'));
-        }
+    $transactions = Transaction::with('receipt')->select('transactions.number as transaction_number', 'transactions.amount as amount',
+     'transactions.payment_date as payment_date', 'transactions.description as description',
+     'transactions.reference as reference', 'customers.name as customer', 'projects.name as project',
+     'plots.number as plot', 'media.file_name as file_name', 'transactions.id as id', 'media.id as media_id')
+        ->leftJoin('projects', 'projects.id', '=', 'transactions.project_id')
+        ->leftJoin('plots', 'plots.id', '=', 'transactions.plot_id')
+        ->leftJoin('customers', 'customers.id', '=', 'transactions.customer_id')
+        ->leftJoin('media', 'media.number', '=', 'transactions.id')
+        ->where('transactions.plot_id', $id)
+        ->orderBy('transactions.id', 'desc')
+        ->get();
 
-        return view('backend.plots.show',compact('transactions','media','link'))->with('plot', $plot);
 
+
+    if (empty($plot)) {
+        Flash::error('Plot not found');
+        return redirect(route('admin.plots.index'));
     }
+
+    return view('backend.plots.show', compact('transactions'))->with('plot', $plot);
+}
 
     /**
      * Show the form for editing the specified plot.
@@ -339,7 +342,7 @@ if($request->payment_id < 3){
                         ->join('customers', 'customers.id', '=', 'transactions.customer_id')
                         ->where('transactions.plot_id',$id)
                         ->get();
-        
+
                          $total = $transactions -> pluck('amount')->sum();
         $viewContent = FacadesView::make('backend.plots.print',compact(
             'transactions','customer','query','total','imagePath','project'
@@ -366,7 +369,7 @@ if($request->payment_id < 3){
         $plot = $this->PlotRepository->find($id);
         $project=Plot::where('id',$id)->first();
         // dd($project);
-        
+
         if (empty($plot)) {
             Flash::error('plot not found');
 

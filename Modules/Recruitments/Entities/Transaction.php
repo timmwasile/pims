@@ -11,6 +11,7 @@ use Modules\Admins\Entities\Admin;
 use Modules\Admins\Entities\Company;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Transaction extends Model  implements HasMedia
 {
@@ -21,7 +22,7 @@ class Transaction extends Model  implements HasMedia
     use InteractsWithMedia;
 
     public $table = 'transactions';
-    
+
    public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
 
@@ -52,7 +53,7 @@ class Transaction extends Model  implements HasMedia
         'reference'       => 'string',
         'description'       => 'string',
         'amount'       => 'double',
-        
+
     ];
 
      public static $rules = [
@@ -91,6 +92,11 @@ class Transaction extends Model  implements HasMedia
      public function getFileNameAttribute()
     {
         return $this->getMedia('file_name');
+    }
+    public function receipt()
+    {
+        // return $this->morphOne(Media::class, 'model');
+        return $this->hasOne(Media::class, 'number', 'id');
     }
 
 }

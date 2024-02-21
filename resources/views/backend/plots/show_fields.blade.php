@@ -82,7 +82,7 @@
                         <tbody class="font-weight-bold">
                         <tr><th colspan="9">List of Transaction</th></tr>
                         </tbody>
-                        
+
                         <tr>
                             <th scope="col" align="left">S/No</th>
                             <th scope="col">Transaction Number</th>
@@ -92,16 +92,17 @@
                             <th scope="col">Reference Number</th>
                             <th scope="col">Customer Full Name</th>
                             <th scope="col">Project Name</th>
-                            <th scope="col">Plot Number</th> 
-                            {{-- <th scope="col">Download</th>  --}}
+                            <th scope="col">Plot Number</th>
+                            <th scope="col">Download</th>
                         </tr>
                     </thead>
                     <tbody class="text-uppercase">
-                        
+
                         @php
-                           $no=1; 
+                           $no=1;
+                           $total = 0;
                         @endphp
-                       
+
                         @foreach($transactions as $transaction)
                            <tr>
                                 <td scope="col" align="left">{{ $no}} </td>
@@ -113,15 +114,24 @@
                                 <td scope="col" >{{ ucwords($transaction->customer) }}</td>
                                 <td scope="col" >{{ ucwords($transaction->project) }}</td>
                                 <td scope="col" >{{ ucwords($transaction->plot) }}</td>
-                                {{-- <td scope="col" ><a target="_blank" href={{ $transaction->id }}>Download</a></td> --}}
+                                <td scope="col">
+                                @if ($transaction->receipt)
+                                <a target="_blank" href="{{ $transaction ? asset('storage/' . $transaction->media_id . '/' . $transaction->receipt->file_name) : '#' }}">Download</a>
+    @else
+
+        No receipt available
+
+    @endif</td>
+                                {{-- <td scope="col"><a target="_blank" href="{{ $transaction ? asset('storage/' . $transaction->media_id . '/' . $transaction->receipt->file_name) : '#' }}">Download</a></td> --}}
+
                             </tr>
                             @php
-                            $no++; 
+                            $no++;
+                            $total += $transaction->amount;
                             @endphp
                         @endforeach
-                            {{-- <tr>
-                                <td colspan="4" align="right"><strong>Total Transaction:</strong></td>
-                                <td>{{ number_format($total,2)}}</td>
-                            </tr> --}}
+                            <tr>
+                                <td colspan="10"left align="" ><strong>Total Amount paid {{ number_format($total,2)}}/=<strong></td>
+                            </tr>
                     </tbody>
                 </table>

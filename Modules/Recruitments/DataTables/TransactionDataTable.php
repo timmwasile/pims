@@ -30,8 +30,8 @@ class TransactionDataTable extends DataTable
             ->addIndexColumn()
             ->addColumn('id', function ($request) {
                 return $request->id? $request->id: 'N/A';
-                
-            }) 
+
+            })
             ->editColumn('number', function ($request) {
                 return $request->number ?  $request->number : 'N/A';
             })
@@ -41,7 +41,7 @@ class TransactionDataTable extends DataTable
              ->editColumn('amount', function ($request) {
                 return $request->amount ?  number_format($request->amount,2) : '0';
             })
-           
+
              ->editColumn('project_id', function ($request) {
                 return $request->project_id ?  ucwords($request->projectId->name): 'N/A';
             })
@@ -63,11 +63,16 @@ class TransactionDataTable extends DataTable
            ->editColumn('created_by', function ($request) {
                 return $request->createdBy ?  ucwords($request->createdBy->name) : 'N/A';
             })
-            ->editColumn('file_name', function ($request) {
-                if (!$request->file_name) {
+            ->editColumn('file_name', function ($row) {
+                if (!$row->file_name) {
                     return '(not set)';
                 }
-                $media= Media::where('number',$request->id)->first();
+
+                $media = Media::where('number', $row->id)->first();
+                if (!$media) {
+                    return '(media not found)';
+                }
+
                 $links[] = '<a href="' . Storage::url($media->id.'/'.$media->file_name) . '" target="_blank">' . trans('global.downloadFile') . '</a>';
                 return implode(', ', $links);
             })
@@ -144,23 +149,23 @@ class TransactionDataTable extends DataTable
                 'data'  => 'project',
                 'name'  => 'project',
                 'title' => 'Project Name',
-            ]),  
+            ]),
              'description' => new Column([
                 'data'  => 'description',
                 'name'  => 'description',
                 'title' => 'Description',
-            ]),  
+            ]),
              'reference' => new Column([
                 'data'  => 'reference',
                 'name'  => 'reference',
                 'title' => 'Reference',
-            ]),  
+            ]),
             'customer' => new Column([
                 'data'  => 'customer',
                 'name'  => 'customer',
                 'title' => 'Customer Fullname',
             ]),
-            
+
       'amount' => new Column([
                 'data'  => 'amount',
                 'name'  => 'amount',
