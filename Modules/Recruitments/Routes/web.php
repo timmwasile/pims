@@ -8,6 +8,8 @@ use Modules\Admins\Http\Controllers\CompanyController;
 use Modules\Recruitments\Http\Controllers\EmployeeController;
 use Modules\Recruitments\Entities\Payment;
 use Modules\Recruitments\Http\Controllers\CustomerController;
+use Modules\Recruitments\Http\Controllers\FarmAssetController;
+use Modules\Recruitments\Http\Controllers\FarmController;
 use Modules\Recruitments\Http\Controllers\GenderController;
 use Modules\Recruitments\Http\Controllers\MarketingOfficerController;
 use Modules\Recruitments\Http\Controllers\OfficeController;
@@ -34,12 +36,19 @@ Route::post('/register/admin', [RegisterController::class, 'adminRegister']);
 // Route::middleware('auth')->group(function () {
 Route::middleware('auth:admin')->name('admin.')->prefix('admin')->group(function () {
 // Route::get('/', [AdminController::class, 'index'])->name('home');
-    //    CLear plot Amount 
+    //    CLear plot Amount
     Route::get('/plots/{plot}/transaction/', [PlotController::class, 'transaction'])->name('plots.transaction');
+    Route::get('/farm_assets/{plot}/transaction/', [FarmAssetController::class, 'transaction'])->name('farm_assets.transaction');
+
     Route::post('/plots/{plot}/clear_balance/', [PlotController::class, 'save_to_clear_balance'])->name('plots.save_to_clear_balance');
+    Route::post('/farm_assets/{plot}/clear_balance/', [FarmAssetController::class, 'save_to_clear_balance'])->name('farm_assets.save_to_clear_balance');
 // upload attachment
      Route::post('plots/media', [PlotController::class, 'storeMedia'])->name('plots.storeMedia');
     Route::post('plots/ckmedia', [PlotController::class, 'storeCKEditorImages'])->name('plots.storeCKEditorImages');
+
+    Route::post('farm_assets/media', [FarmAssetController::class, 'storeMedia'])->name('farm_assets.storeMedia');
+    Route::post('farm_assets/ckmedia', [FarmAssetController::class, 'storeCKEditorImages'])->name('farm_assets.storeCKEditorImages');
+
 
     // upload office logo
      Route::post('companies/media', [CompanyController::class, 'storeMedia'])->name('companies.storeMedia');
@@ -48,13 +57,14 @@ Route::middleware('auth:admin')->name('admin.')->prefix('admin')->group(function
 
     // print Plot Payment Summary
     Route::get('plot/{plot}/print', [PlotController::class, 'print'])->name('plots.print');
+    Route::get('farm_assets/{plot}/print', [FarmAssetController::class, 'print'])->name('farm_assets.print');
 
     // Transaction Report
     Route::get('transaction/report', [TransactionController::class, 'get_report_form'])->name('transactions.reports.index');
 // print Transaction report based on dates
     Route::post('transaction/report/print', [TransactionController::class, 'transaction_report_print'])->name('transactions.reports.print');
 
-    
+
     Route::resources([
         'permissions'              => PermissionController::class,
         'roles'                     => RoleController::class,
@@ -67,7 +77,9 @@ Route::middleware('auth:admin')->name('admin.')->prefix('admin')->group(function
         'customers'                  =>       CustomerController::class,
         'marketing_officers'                  =>       MarketingOfficerController::class,
         'plots'                  =>       PlotController::class,
-        
+        'farms'                  =>       FarmController::class,
+        'farm_assets'                  =>       FarmAssetController::class,
+
     ]);
 
     Route::post('/{admin}', [AdminController::class, 'passwordReset'])->name('admins.passwordReset');

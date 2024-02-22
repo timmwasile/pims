@@ -45,9 +45,9 @@ class TransactionDataTable extends DataTable
              ->editColumn('project_id', function ($request) {
                 return $request->project_id ?  ucwords($request->projectId->name): 'N/A';
             })
-            ->editColumn('plot_id', function ($request) {
-                return $request->plot_id ?  ucwords($request->plotId->number): 'N/A';
-            })
+            // ->editColumn('plot_id', function ($request) {
+            //     return $request->plot_id ?  ucwords($request->plotId->number): 'N/A';
+            // })
              ->editColumn('customer', function ($request) {
                 return $request->customer ?  ucwords($request->customer): 'N/A';
             })
@@ -70,7 +70,7 @@ class TransactionDataTable extends DataTable
 
                 $media = Media::where('number', $row->id)->first();
                 if (!$media) {
-                    return '(media not found)';
+                    return '(No Receipt)';
                 }
 
                 $links[] = '<a href="' . Storage::url($media->id.'/'.$media->file_name) . '" target="_blank">' . trans('global.downloadFile') . '</a>';
@@ -139,11 +139,11 @@ class TransactionDataTable extends DataTable
                 'name'  => 'plot',
                 'title' => 'Plot Number',
             ]),
-             'number' => new Column([
-                'data'  => 'number',
-                'name'  => 'number',
-                'title' => 'Transaction number',
-            ]),
+            //  'number' => new Column([
+            //     'data'  => 'number',
+            //     'name'  => 'number',
+            //     'title' => 'Transaction number',
+            // ]),
 
             'project' => new Column([
                 'data'  => 'project',

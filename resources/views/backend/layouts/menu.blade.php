@@ -9,7 +9,7 @@
 
 @can('project_management_access')
     <li
-        class="dropdown {{Request::is('admin/projects*') || Request::is('admin/payments*') || Request::is('admin/customers*') ? 'active': '' }}">
+        class="dropdown {{Request::is('admin/projects*') || Request::is('admin/payments*') || Request::is('admin/customers*') || Request::is('admin/farms*') ? 'active': '' }}">
         <a href="#" class="nav-link has-dropdown">
             <i class="fas fa-project-diagram"></i> <span>Project Management</span>
         </a>
@@ -17,7 +17,15 @@
             @can('project_access')
             <li class="{{ Request::is('admin/projects*') ? 'active' : '' }}">
                     <a class="nav-link " href="{{ route('admin.projects.index') }}">
-                        <i class="fab fa-stack-exchange"></i> Project List
+                        <i class="fab fa-stack-exchange"></i> Plots
+                    </a>
+                </li>
+                @endcan
+
+                @can('farm_access')
+            <li class="{{ Request::is('admin/farms*') ? 'active' : '' }}">
+                    <a class="nav-link " href="{{ route('admin.farms.index') }}">
+                        <i class="fab fa-stack-exchange"></i> Farms
                     </a>
                 </li>
                 @endcan
@@ -32,11 +40,11 @@
                  @can('payment_access')
                 <li class="{{ Request::is('admin/payments*') ? 'active' : '' }}">
                     <a class="nav-link " href="{{ route('admin.payments.index') }}">
-                        <i class="fab fa-html5"></i> Pay Types 
+                        <i class="fab fa-html5"></i> Pay Types
                     </a>
                 </li>
-            @endcan     
-            
+            @endcan
+
         </ul>
     </li>
 @endcan
@@ -45,9 +53,9 @@
 
 @can('plot_management_access')
     <li
-        class="dropdown {{ Request::is('admin/plots*')|| Request::is('admin/marketing_officers*')|| Request::is('admin/transactions*')? 'active': '' }}">
+        class="dropdown {{ Request::is('admin/plots*')|| Request::is('admin/marketing_officers*')|| Request::is('admin/transactions*')|| Request::is('admin/farm_assets*')? 'active': '' }}">
         <a href="#" class="nav-link has-dropdown">
-            <i class="far fa-object-ungroup"></i> <span>Plot Management</span>
+            <i class="far fa-object-ungroup"></i> <span>Asset Management</span>
         </a>
         <ul class="dropdown-menu">
             @can('plot_access')
@@ -56,24 +64,31 @@
                         <i class="fab fa-audible"></i> Plot List
                     </a>
                 </li>
-            @endcan     
+            @endcan
+            @can('plot_access')
+            <li class="{{ Request::is('admin/farm_assets*') ? 'active' : '' }}">
+                <a class="nav-link " href="{{ route('admin.farm_assets.index') }}">
+                    <i class="fab fa-audible"></i> Farm List
+                </a>
+            </li>
+        @endcan
              @can('transaction_access')
                 <li class="{{ Request::is('admin/transactions*') ? 'active' : '' }}">
                     <a class="nav-link " href="{{ route('admin.transactions.index') }}">
                         <i class="fab fa-slack"></i> Transaction List
                     </a>
                 </li>
-            @endcan 
+            @endcan
               @can('marketing_officer_access')
                 <li class="{{ Request::is('admin/marketing_officers*') ? 'active' : '' }}">
                     <a class="nav-link " href="{{ route('admin.marketing_officers.index') }}">
                         <i class="fas fa-user-tie"></i> M'Officers List
                     </a>
                 </li>
-            @endcan          
+            @endcan
         </ul>
         <ul class="dropdown-menu">
-                    
+
         </ul>
     </li>
 @endcan
@@ -87,26 +102,26 @@
             @can('transaction_access')
                 <li class="{{ Request::is('admin/transaction/report*') ? 'active' : '' }}">
                     <a class="nav-link " href="{{ route('admin.transactions.reports.index') }}">
-                        <i class="fas fa-prescription-bottle"></i> Transaction Rep 
+                        <i class="fas fa-prescription-bottle"></i> Transaction Rep
                     </a>
                 </li>
-            @endcan 
-{{--             
+            @endcan
+{{--
              @can('report_project_access')
                 <li class="{{ Request::is('admin/projects*') ? 'active' : '' }}">
                     <a class="nav-link " href="{{ route('admin.projects.index') }}">
                         <i class="fas fa-radiation"></i> Project Report
                     </a>
                 </li>
-            @endcan  
+            @endcan
             @can('report_plot_access')
                 <li class="{{ Request::is('admin/plots*') ? 'active' : '' }}">
                     <a class="nav-link " href="{{ route('admin.plots.index') }}">
                         <i class="fas fa-route"></i> Plot Report
                     </a>
                 </li>
-            @endcan     
-             
+            @endcan
+
               @can('report_marketing_officer_access')
                 <li class="{{ Request::is('admin/marketing_officers*') ? 'active' : '' }}">
                     <a class="nav-link " href="{{ route('admin.marketing_officers.index') }}">
@@ -116,7 +131,7 @@
             @endcan           --}}
         </ul>
         <ul class="dropdown-menu">
-                    
+
         </ul>
     </li>
 @endcan
@@ -159,7 +174,7 @@
                     </a>
                 </li>
             @endcan
-            
+
             @can('permission_access')
                 <li class="{{ Request::is('admin/permissions*') ? 'active' : '' }}">
                     <a class="nav-link " href="{{ route('admin.permissions.index') }}">

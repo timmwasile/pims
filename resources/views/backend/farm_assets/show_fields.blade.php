@@ -1,105 +1,104 @@
 <div class="row">
 <!-- number Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('number', 'Plot Number:') !!}
-   <div class = 'form-control'> {{ $plot->number }}</div>
+    {!! Form::label('number', 'farm Number:') !!}
+   <div class = 'form-control'> {{ $farm->number?$farm->number:'N/A' }}</div>
 </div>
 
 <!-- customer_id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('customer_id', 'Client:') !!}
-  <div class = 'form-control'>  {{ ucwords($plot->customerId->name )}}</div>
+  <div class = 'form-control'>  {{ ucwords($farm->customerId->name )}}</div>
 </div>
 <!-- payment_id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('payment_id', 'Mode of Payment:') !!}
-  <div class = 'form-control'>  {{ ucwords($plot->paymentId->name) }}</div>
+    {!! Form::label('', 'Mode of Payment:') !!}
+  <div class = 'form-control'>  {{ ucwords($farm->paymentId->name) }}</div>
 </div>
-<!-- project_id Field -->
+{{-- <!-- project_id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('project_id', 'Project:') !!}
-  <div class = 'form-control'>  {{ ucwords($plot->projectId->name) }}</div>
-</div>
+    {!! Form::label('Project_id', 'Project:') !!}
+  <div class = 'form-control'>  {{ ucwords($farm->projectId->name) }}</div>
+</div> --}}
 <!-- marketing_officer_id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('marketing_officer_id', 'Marketing Officer:') !!}
-  <div class = 'form-control'>  {{ ucwords($plot->marketingOfficerId->name )}}</div>
+  <div class = 'form-control'>  {{ ucwords($farm->marketingOfficerId->name )}}</div>
 </div>
 
 <!-- status_id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('status_id', 'Plat Payment Status:') !!}
-  <div class = 'form-control '>  {{ ucwords($plot->status_id==0 ? 'complited':'not completed' )}}</div>
+  <div class = 'form-control '>  {{ ucwords($farm->status_id==0 ? 'complited':'not completed' )}}</div>
 </div>
 
 <!-- started_at Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('started_at', 'Started At:') !!}
- <div class = 'form-control'>   {{ $plot->started_at }}</div>
+ <div class = 'form-control'>   {{ $farm->started_at }}</div>
 </div>
 
 <!-- ended_at Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('ended_at', 'Ended At:') !!}
- <div class = 'form-control'>   {{ $plot->ended_at }}</div>
+ <div class = 'form-control'>   {{ $farm->ended_at }}</div>
 </div>
 
 <!-- description Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('description', 'Plot Description:') !!}
-   <div class = 'form-control'> {{ $plot->description }}</div>
+    {!! Form::label('description', 'farm Description:') !!}
+   <div class = 'form-control'> {{ $farm->description?$farm->description:'N/A' }}</div>
 </div>
 
-<!-- plot_amount Field -->
+<!-- farm_amount Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('plot_amount', 'Plot total Amount:') !!}
-   <div class = 'form-control'> {{ number_format($plot->to_be_paid_amount,2).'/=' }}</div>
+    {!! Form::label('farm_amount', 'farm total Amount:') !!}
+   <div class = 'form-control'> {{ number_format($farm->to_be_paid_amount,2).'/=' }}</div>
 </div>
 
-<!-- plot_balance Field -->
+<!-- farm_balance Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('plot_balance', 'Balance:') !!}
-   <div class = 'form-control'> {{ number_format($plot->balance,2).'/=' }}</div>
+    {!! Form::label('farm_balance', 'Balance:') !!}
+   <div class = 'form-control'> {{ number_format($farm->balance,2).'/=' }}</div>
 </div>
 
 <!-- size Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('size', 'Plot Size:') !!}
-   <div class = 'form-control'> {{ $plot->size.'sqm' }}</div>
+    {!! Form::label('size', 'farm Size:') !!}
+   <div class = 'form-control'> {{ $farm->size.' acres' }}</div>
 </div>
 
 <!-- duration Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('duration', 'Duration:') !!}
-  <div class = 'form-control'>  {{ $plot->duration > 1 ? $plot->duration. ' Months and only '.  $plot->month_remaining .' month remains': $plot->duration.' Month' .' Remains '.  $plot->month_remaining}}</div>
+  <div class = 'form-control'>  {{ $farm->duration > 1 ? $farm->duration. ' Months and only '.  $farm->month_remaining .' month remains': $farm->duration.' Month' .' Remains '.  $farm->month_remaining}}</div>
 </div>
 
 </div>
 
 
-<table class="table table-borderless">
+<table class="table">
                     <thead class="font-weight-normal font-italic">
                         <tbody class="font-weight-bold">
-                            <tr>
-                                <th colspan="4" >List of Transaction</th>
-                                <th colspan="5" >
-                                    <p><strong>Customer FullNames : </strong>{{ ucwords($transactions[0]->customer) }}</p>
-                                    <p><strong>Project : </strong>{{ ucwords($transactions[0]->project) }}</p>
-                                    <p><strong>Number : </strong>{{ ucwords($transactions[0]->farm) }}</p>
-                                </th>
-                            </tr>
-                        </tbody>
-
                         <tr>
+                            <th colspan="4" >List of Transaction</th>
+                            <th colspan="5" >
+                                <p><strong>Customer FullNames : </strong>{{ ucwords($transactions[0]->customer) }}</p>
+                                <p><strong>Project : </strong>{{ ucwords($transactions[0]->project) }}</p>
+                                <p><strong>Number : </strong>{{ ucwords($transactions[0]->farm) }}</p>
+                            </th>
+                        </tr>
+                        </tbody>
+                            <tr>
                             <th scope="col" align="left">S/No</th>
                             <th scope="col">Transaction Number</th>
                              <th scope="col">Payment Date</th>
                             <th scope="col">Amount Paid</th>
                             <th scope="col">Description </th>
                             <th scope="col">Reference Number</th>
-                            {{-- <th scope="col">Customer Full Name</th>
-                            <th scope="col">Project Name</th>
-                            <th scope="col">Plot Number</th> --}}
+                            {{-- <th scope="col">Customer Full Name</th> --}}
+                            {{-- <th scope="col">Project Name</th> --}}
+                            {{-- <th scope="col">farm Number</th> --}}
                             <th scope="col">Download</th>
                         </tr>
                     </thead>
@@ -116,11 +115,11 @@
                                 <td scope="col" >{{ ucwords($transaction->transaction_number) }}</td>
                                 <td scope="col" >{{ $transaction->payment_date }}</td>
                                 <td scope="col" >{{ number_format($transaction->amount,2)."/=" }}</td>
-                                <td scope="col" >{{ ucwords($transaction->description) }}</td>
+                                <td scope="col" >{{ $transaction->description ? ucwords($transaction->description):'N/A' }}</td>
                                 <td scope="col" >{{ ucwords($transaction->reference?$transaction->reference:"N/A") }}</td>
                                 {{-- <td scope="col" >{{ ucwords($transaction->customer) }}</td>
                                 <td scope="col" >{{ ucwords($transaction->project) }}</td>
-                                <td scope="col" >{{ ucwords($transaction->plot) }}</td> --}}
+                                <td scope="col" >{{ ucwords($transaction->farm) }}</td> --}}
                                 <td scope="col">
                                 @if ($transaction->receipt)
                                 <a target="_blank" href="{{ $transaction ? asset('storage/' . $transaction->media_id . '/' . $transaction->receipt->file_name) : '#' }}">Download</a>

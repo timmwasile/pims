@@ -1,0 +1,77 @@
+-- MariaDB dump 10.19  Distrib 10.6.16-MariaDB, for debian-linux-gnu (x86_64)
+--
+-- Host: 127.0.0.1    Database: timsofts_pims_db
+-- ------------------------------------------------------
+-- Server version	10.6.16-MariaDB-0ubuntu0.22.04.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `farm_assets`
+--
+
+DROP TABLE IF EXISTS `farm_assets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `farm_assets` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `number` varchar(255) NOT NULL,
+  `map_number` varchar(255) NOT NULL,
+  `status_id` bigint(20) unsigned NOT NULL,
+  `duration` bigint(20) unsigned NOT NULL,
+  `month_remaining` bigint(20) unsigned NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `total_amount` double(18,2) NOT NULL DEFAULT 0.00,
+  `to_be_paid_amount` double(18,2) NOT NULL DEFAULT 0.00,
+  `balance` double(18,2) NOT NULL DEFAULT 0.00,
+  `mpa` double(18,2) NOT NULL DEFAULT 0.00,
+  `paid_amount` double(18,2) NOT NULL DEFAULT 0.00,
+  `penalty` double(18,2) NOT NULL DEFAULT 0.00,
+  `size` varchar(255) NOT NULL,
+  `started_at` date NOT NULL,
+  `ended_at` date NOT NULL,
+  `created_by` bigint(20) unsigned NOT NULL,
+  `customer_id` bigint(20) unsigned NOT NULL,
+  `payment_id` bigint(20) unsigned NOT NULL,
+  `project_id` bigint(20) unsigned NOT NULL,
+  `marketing_officer_id` bigint(20) unsigned NOT NULL,
+  `company_id` bigint(20) unsigned NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `farm_assets_number_unique` (`number`),
+  KEY `farm_assets_created_by_foreign` (`created_by`),
+  KEY `farm_assets_customer_id_foreign` (`customer_id`),
+  KEY `farm_assets_payment_id_foreign` (`payment_id`),
+  KEY `farm_assets_project_id_foreign` (`project_id`),
+  KEY `farm_assets_marketing_officer_id_foreign` (`marketing_officer_id`),
+  KEY `farm_assets_company_id_foreign` (`company_id`),
+  CONSTRAINT `farm_assets_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `farm_assets_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `admins` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `farm_assets_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `farm_assets_marketing_officer_id_foreign` FOREIGN KEY (`marketing_officer_id`) REFERENCES `marketing_officers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `farm_assets_payment_id_foreign` FOREIGN KEY (`payment_id`) REFERENCES `payments` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `farm_assets_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-02-22  7:59:11

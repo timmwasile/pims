@@ -6,6 +6,8 @@ use Modules\Admins\Entities\Admin;
 use Modules\Recruitments\Entities\Plot;
 use Modules\Recruitments\Entities\Project;
 use Modules\Admins\Entities\Company;
+use Modules\Recruitments\Entities\Farm;
+use Modules\Recruitments\Entities\FarmAsset;
 use Modules\Recruitments\Entities\Transaction;
 
 /**
@@ -70,6 +72,44 @@ function plotNumber(string $type, int $id): string
     }
 }
 
+/**
+ *  plot number generator using project/month/year/office Name and
+ * serial number.
+ *
+ * @param  string  $type  Type
+ * @param  int     $id    ID
+ *
+ * @return string
+ */
+function farmNumber(string $type, int $id): string
+{
+
+    $plot_details = FarmAsset::where('id',$id)->first();
+    $farm=Farm::where('id',$plot_details->project_id)->first();
+    $company=Company::where('id',$plot_details->company_id)->first()->name;
+    $starter = str_pad($farm->id, 3, '0', STR_PAD_LEFT). substr(strtoupper($farm->initial), 0, 3);
+
+    $admin = Admin::where('id', auth()->user()->id)->with('companyId')->first();
+    $company = $admin->companyId->name;
+    $count=Transaction::where('id',$admin->companyId->id)->get()->count();
+
+    // dd($count);
+
+    $end = str_pad($count+1, 4, '0', STR_PAD_LEFT);
+
+    switch (strtolower($type)) {
+        case 'plot_number':
+            return strtoupper($starter .'-'.substr($company,0,3).'-FARM-'. $end);
+
+            break;
+
+        default:
+            return strtoupper($starter .'-'.substr($company,0,3).'-FARM-'. $end);
+
+            break;
+    }
+}
+
 
 /**
  *  Transaction number generator using project/month/year/office Name and
@@ -84,10 +124,10 @@ function transactionNumber(string $type, int $id): string
 {
     $admin = Admin::where('id', auth()->user()->id)->with('companyId')->first();
     $company = $admin->companyId->name;
-    $count=Transaction::where('id',$admin->companyId->id)->get()->count();
-
+    $count=Transaction::where('company_id',1)->get()->count();
+    $count=$count+1;
     $starter = date('my');
-    $end = str_pad($count+1, 4, '0', STR_PAD_LEFT);
+    $end = str_pad($count, 4, '0', STR_PAD_LEFT);
 
     switch (strtolower($type)) {
         case 'transaction_number':
