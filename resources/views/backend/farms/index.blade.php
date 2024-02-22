@@ -1,14 +1,14 @@
 @extends('backend.layouts.app')
 
 @section('title')
-    farm Creation
+    List of farm(s)
 @endsection
 
 @section('content')
     <section class="section">
 
         <div class="section-header">
-            <h1>farm Creation</h1>
+            <h1>List of farm(s)</h1>
             <div class="section-header-breadcrumb">
 
                 <a

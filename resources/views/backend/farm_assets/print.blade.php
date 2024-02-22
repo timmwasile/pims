@@ -107,7 +107,7 @@ tr:nth-child(even) {
         <div class="row justify-content-center mb-3">
             <div class="col-12 text-center">
                 <h2 style="text-align: center">{{ ucwords($company)}}</h2>
-                <h3 style="text-align: center">{{ __('  Plot Payment Summary') }}</h3>
+                <h3 style="text-align: center">{{ __('  Farm Payment Summary') }}</h3>
             </div>
         </div>
         <div class="row justify-content-center" >
@@ -121,7 +121,7 @@ tr:nth-child(even) {
                         style="border-radius: 0;"
                         width="100"
                         height="100"
-                        
+
                     >
                 </div>
             </div>
@@ -134,7 +134,7 @@ tr:nth-child(even) {
                         <p>Address :  {{ ucwords($customer->address) }}</p>
                     </div>
                 </div>
-                
+
                 <div class="column" >
                     <div class="w3-container  w3-cell">
                         <p>Plot Size :  {{ $query->size }}sqm</p>
@@ -157,7 +157,7 @@ tr:nth-child(even) {
     <div class="row">
             <div class="col-lg-12 col-md-12">
 
-                
+
                 <table class="table table-borderless">
                     <thead class="font-weight-normal font-italic">
                         <tbody class="font-weight-bold w3-container">
@@ -173,9 +173,9 @@ tr:nth-child(even) {
                     </thead>
                     <tbody class="text-uppercase">
                         @php
-                           $no=1; 
+                           $no=1;
                         @endphp
-                       
+
                         @foreach($transactions as $transaction)
                            <tr>
                                 <td scope="col" align="left">{{ $no}} </td>
@@ -185,7 +185,7 @@ tr:nth-child(even) {
                                 <td scope="col" align="right" style="text-align: right">{{ number_format($transaction->amount,2)}}</td>
                             </tr>
                             @php
-                            $no++; 
+                            $no++;
                             @endphp
                         @endforeach
 <tr>
@@ -202,24 +202,24 @@ tr:nth-child(even) {
                             </tr>
                     </tbody>
                 </table>
-                   
+
             </div>
         </div>
 
 
-                           
+
                     </tbody>
                 </table>
-        
+
             </div>
         </div>
-    
-       
-   
 
-   
 
-   
+
+
+
+
+
 
 </body>
 

@@ -87,7 +87,24 @@ class FarmDataTable extends DataTable
      */
     public function query(Farm $model)
     {
-        return $model->newQuery();
+        // return $model->newQuery();
+        return $model->newQuery()->select(
+            'farms.id as id','farms.name as name',
+            'farms.location as location',
+            'farms.size as size',
+            'farms.amount as amount',
+            'farms.initial as initial',
+            'farms.code as code',
+            // 'farms.company_id as company_id',
+            'farms.created_by as created_by',
+            DB::raw('SUM(farm_assets.size) as remaining'),
+            DB::raw('count(farm_assets.project_id) as sold'))
+            ->leftjoin('farm_assets', 'farm_assets.project_id', '=', 'farms.id')
+            // ->leftjoin('companies', 'companies.id', '=', 'farms.company_id')
+            ->groupBy('farms.id')
+            ->where('farm_assets.deleted_at',NULL )
+            // ->where('plots.deleted_at',NULL )
+            ;
     }
 
     /**
@@ -148,18 +165,18 @@ class FarmDataTable extends DataTable
             // 'remaining' => new Column([
             //     'data'  => 'remaining',
             //     'name'  => 'remaining',
-            //     'title' => 'SQM Sold Out',
+            //     'title' => 'Acres Sold Out',
             // ]),
             'baki' => new Column([
                 'data'  => 'baki',
                 'name'  => 'baki',
                 'title' => 'Acres Remaining',
             ]),
-            // 'sold' => new Column([
-            //     'data'  => 'sold',
-            //     'name'  => 'sold',
-            //     'title' => 'Plot(s) Sold Out',
-            // ]),
+            'sold' => new Column([
+                'data'  => 'sold',
+                'name'  => 'sold',
+                'title' => 'Farm(s) Sold Out',
+            ]),
              'amount' => new Column([
                 'data'  => 'amount',
                 'name'  => 'amount',

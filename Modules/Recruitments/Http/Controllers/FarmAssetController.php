@@ -344,22 +344,22 @@ if($request->payment_id < 3){
         $dompdf = new Dompdf();
         $media = Media::where('model_id',auth()->user()->company_id)->first();
         $imagePath = '/'.$media->id.'/'.$media->file_name;
-        $query= Plot::where('id', $id)->get()->first();
+        $query= FarmAsset::where('id', $id)->get()->first();
         $customer =Customer::where('id', $query->customer_id)->first();
-        $project =Project::where('id', $query->project_id)->first();
+        $project =Farm::where('id', $query->project_id)->first();
 
         $transactions = Transaction::select('transactions.number as number',
                                     'transactions.amount as amount',
                                     'transactions.payment_date as date',
                                     'transactions.reference as reference',
                         )
-                        ->join('plots', 'plots.id', '=', 'transactions.plot_id')
+                        ->join('farm_assets', 'farm_assets.id', '=', 'transactions.plot_id')
                         ->join('customers', 'customers.id', '=', 'transactions.customer_id')
                         ->where('transactions.plot_id',$id)
                         ->get();
 
                          $total = $transactions -> pluck('amount')->sum();
-        $viewContent = FacadesView::make('backend.plots.print',compact(
+        $viewContent = FacadesView::make('backend.farm_assets.print',compact(
             'transactions','customer','query','total','imagePath','project'
             ))
             ->render();
