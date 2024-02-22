@@ -290,6 +290,7 @@ if($request->payment_id < 3){
     public function save_to_clear_balance($id, CreateTransactionRequest $request)
     {
         $plot = Plot::where('id', $id)->first();
+
         $input = $request->all();
         $transaction = $this->TransactionRepository->create($input);
            $to_media = $plot->addMediaFromRequest('file_name')->toMediaCollection('file_name');

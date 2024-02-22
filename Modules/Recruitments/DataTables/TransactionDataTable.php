@@ -35,9 +35,8 @@ class TransactionDataTable extends DataTable
             ->editColumn('number', function ($request) {
                 return $request->number ?  $request->number : 'N/A';
             })
-            ->editColumn('number', function ($request) {
-                return $request->number ?  $request->number : 'N/A';
-            })
+
+
              ->editColumn('amount', function ($request) {
                 return $request->amount ?  number_format($request->amount,2) : '0';
             })

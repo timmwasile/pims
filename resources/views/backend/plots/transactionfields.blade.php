@@ -57,7 +57,7 @@
         @endif
         <span class="help-block">{{ trans('cruds.plot.fields.customer_helper') }}</span>
     </div>
-    
+
 <!-- reference Field -->
 <div class="form-group col-md-6" >
     {!! Form::label('reference', ' Reference Number :') !!}
@@ -65,7 +65,7 @@
 </div>
 <div class="form-group col-sm-6">
     {!! Form::label('payment_date', 'Payment Date:') !!}
-    {!! Form::text('payment_date', null, ['class' => 'form-control', 'id' => 'started_at', 'autocomplete'=>'off']) !!}
+    {!! Form::text('payment_date', null, ['class' => 'form-control', 'id' => 'started_at', 'autocomplete'=>'off', 'required']) !!}
      @error('payment_date')
         <span class="text-danger">{{ $message }}</span>
         @enderror
@@ -99,7 +99,7 @@
 
 @section('scripts')
 <script src="{{ asset('backend/assets/js/bootstrap-toggle.min.js') }}"></script>
- 
+
     <script>
         var uploadedPermitsMap = {}
         Dropzone.options.permitsDropzone = {
@@ -157,7 +157,7 @@
         }
     </script>
 
-  
+
 @endsection --}}
 <!-- Submit Field -->
 <div class="form-group col-sm-12">

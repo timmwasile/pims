@@ -57,7 +57,7 @@ function plotNumber(string $type, int $id): string
     $company = $admin->companyId->name;
     $count=Transaction::where('id',$admin->companyId->id)->get()->count();
 
-    $end = str_pad($count, 4, '0', STR_PAD_LEFT);
+    $end = str_pad($count++, 4, '0', STR_PAD_LEFT);
 
     switch (strtolower($type)) {
         case 'plot_number':
@@ -93,9 +93,8 @@ function farmNumber(string $type, int $id): string
     $company = $admin->companyId->name;
     $count=Transaction::where('id',$admin->companyId->id)->get()->count();
 
-    // dd($count);
 
-    $end = str_pad($count+1, 4, '0', STR_PAD_LEFT);
+    $end = str_pad($count++, 4, '0', STR_PAD_LEFT);
 
     switch (strtolower($type)) {
         case 'plot_number':
@@ -124,11 +123,12 @@ function transactionNumber(string $type, int $id): string
 {
     $admin = Admin::where('id', auth()->user()->id)->with('companyId')->first();
     $company = $admin->companyId->name;
-    $count=Transaction::where('company_id',1)->get()->count();
-    $count=$count+1;
+    $count=Transaction::where('company_id',$admin->companyId->id)->get()->count();
+
+    $count=$count++;
+
     $starter = date('my');
     $end = str_pad($count, 4, '0', STR_PAD_LEFT);
-
     switch (strtolower($type)) {
         case 'transaction_number':
             return strtoupper($starter .'-'.substr($company,0,3).'-TR-' . $end);
