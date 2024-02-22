@@ -55,9 +55,10 @@ function plotNumber(string $type, int $id): string
 
     $admin = Admin::where('id', auth()->user()->id)->with('companyId')->first();
     $company = $admin->companyId->name;
-    $count=Transaction::where('id',$admin->companyId->id)->get()->count();
+    $count=Plot::where('company_id',$admin->companyId->id)->get()->count();
+    $count=$count++;
 
-    $end = str_pad($count++, 4, '0', STR_PAD_LEFT);
+    $end = str_pad($count, 4, '0', STR_PAD_LEFT);
 
     switch (strtolower($type)) {
         case 'plot_number':
@@ -91,10 +92,10 @@ function farmNumber(string $type, int $id): string
 
     $admin = Admin::where('id', auth()->user()->id)->with('companyId')->first();
     $company = $admin->companyId->name;
-    $count=Transaction::where('id',$admin->companyId->id)->get()->count();
+    $count=FarmAsset::where('company_id',$admin->companyId->id)->get()->count();
+    $count=$count++;
 
-
-    $end = str_pad($count++, 4, '0', STR_PAD_LEFT);
+    $end = str_pad($count, 4, '0', STR_PAD_LEFT);
 
     switch (strtolower($type)) {
         case 'plot_number':

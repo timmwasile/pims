@@ -19,21 +19,21 @@ class UpdatePlotRequest extends FormRequest
         $started_at = $dt1->format("Y-m-d");
         $ended_at = date('Y-m-d', strtotime("+$this->duration months", strtotime($started_at)));
 
-        $total_amount = $this->size *$sqm_amount->amount; 
+        $total_amount = $this->size *$sqm_amount->amount;
 
         $balance = floatval(preg_replace("/[^-0-9\.]/","",$total_amount) - preg_replace("/[^-0-9\.]/","",$total_amount)*$payment_type->discount/100) - floatval(preg_replace("/[^-0-9\.]/","",$this->paid_amount));
         if($this->payment_id ==1){
-            $this->merge(['status_id' => 0, ]); 
+            $this->merge(['status_id' => 0, ]);
         }else{
-            $this->merge(['status_id' => 1]); 
+            $this->merge(['status_id' => 1]);
         }
-        
+
         $to_be_paid_amount = floatval(preg_replace("/[^-0-9\.]/","",$total_amount) - preg_replace("/[^-0-9\.]/","",$total_amount)*$payment_type->discount/100);
         $mpa = $to_be_paid_amount/$this->duration;
 
- $d1=new DateTime(); 
- $d2=new DateTime($ended_at);                                  
- $Months = $d2->diff($d1); 
+ $d1=new DateTime();
+ $d2=new DateTime($ended_at);
+ $Months = $d2->diff($d1);
  $howeverManyMonths = (($Months->y) * 12) + ($Months->m);
         $this->merge([
             'created_by'             => Auth::user()->id,

@@ -243,7 +243,9 @@ if($request->payment_id < 3){
                 }
             }
         }
-
+$transaction = Transaction::where('plot_id', $id)->first()->update([
+    'amount' => $request->paid_amount,
+]);
         $media = $plot->permits->pluck('file_name')->toArray();
 
         foreach ($request->input('permits', []) as $file) {
