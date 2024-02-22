@@ -171,7 +171,7 @@ class FarmAssetDataTable extends DataTable
             'number' => new Column([
                 'data'  => 'number',
                 'name'  => 'number',
-                'title' => 'Plot Number',
+                'title' => 'Farm Number',
             ]),
 
             'description' => new Column([
