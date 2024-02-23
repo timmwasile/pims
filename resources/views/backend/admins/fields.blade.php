@@ -18,7 +18,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('phone_no', 'Mobile Number:') !!}
     {!! Form::text('phone_no', null, ['class' => 'form-control',  'maxlength' => 10, 'maxlength' => 10, 'placeholder'=>'0711101010']) !!}
-   
+
 </div>
 {{-- @if (auth()->user()->id ==10) --}}
     <!-- gender Field -->
@@ -29,6 +29,7 @@
         <span class="text-danger">{{ $message }}</span>
         @enderror
 </div>
+@if (auth()->user()->company_id ==1)
 
    <!-- company Field -->
 <div class="form-group col-sm-6">
@@ -38,6 +39,8 @@
         <span class="text-danger">{{ $message }}</span>
         @enderror
 </div>
+@endif
+
 <div class="form-group col-md-4">
     <label class="required" for="roles">{{ trans('cruds.user.fields.roles') }}</label>
     <div style="padding-bottom: 4px">
