@@ -29,10 +29,10 @@
 </div>
 
 <!-- number_of_plots Field -->
-<div class="form-group col-sm-6">
+{{-- <div class="form-group col-sm-6">
     {!! Form::label('number_of_plots', 'number_of_plots:') !!}
     {!! Form::text('number_of_plots', null, ['class' => 'form-control', 'maxlength' => 120, 'maxlength' => 120]) !!}
-</div>
+</div> --}}
 
 <!-- initial Field -->
 <div class="form-group col-sm-6">

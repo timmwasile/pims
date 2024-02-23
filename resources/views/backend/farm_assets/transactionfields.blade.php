@@ -9,7 +9,7 @@
 
 <!-- balance Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('balance', 'Plot balance:') !!}
+    {!! Form::label('balance', 'Farm balance:') !!}
     {!! Form::text('balance', $plot->balance, ['class' => 'form-control number-separator', 'maxlength' => 60, 'maxlength' => 60, 'readonly']) !!}
 </div>
 
@@ -21,7 +21,7 @@
 
 <!-- description Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('description', 'Plot Description:') !!}
+    {!! Form::label('description', 'Farm Description:') !!}
     {!! Form::text('description', $plot->description, ['class' => 'form-control', 'maxlength' => 60, 'maxlength' => 60, 'readonly']) !!}
 </div>
 <!-- loan_amount Field -->
@@ -65,7 +65,7 @@
 </div>
 <div class="form-group col-sm-6">
     {!! Form::label('payment_date', 'Payment Date:') !!}
-    {!! Form::text('payment_date', null, ['class' => 'form-control', 'id' => 'started_at', 'autocomplete'=>'off']) !!}
+    {!! Form::text('payment_date', null, ['class' => 'form-control', 'id' => 'started_at', 'autocomplete'=>'off', required]) !!}
      @error('payment_date')
         <span class="text-danger">{{ $message }}</span>
         @enderror
@@ -79,7 +79,8 @@
 <!-- location Phone Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('file_name', 'Office Attachement :') !!}
-    {!! Form::file('file_name', null, ['class' => 'form-control' ]) !!}
+    {!! Form::file('file_name', ['class' => 'form-control', 'required' => true, 'maxlength' => 1000000]) !!}
+
 </div>
 
  {{-- <div class="form-group">

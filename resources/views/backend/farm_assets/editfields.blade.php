@@ -1,6 +1,6 @@
 <!-- number Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('number', 'Plot number:') !!}
+    {!! Form::label('number', 'Farm number:') !!}
     {!! Form::text('number', null, ['class' => 'form-control', 'maxlength' => 60, 'maxlength' => 60, 'readonly']) !!}
 </div><!-- customer_id Field -->
     <div class="form-group col-sm-6">
@@ -58,7 +58,7 @@
 </div>
 <!-- size Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('size', 'Plot Size in sqm :') !!}
+    {!! Form::label('size', 'Farm Size in Acres :') !!}
     {!! Form::text('size', null, ['class' => 'form-control number-separator', 'maxlength' => 120, 'maxlength' => 120]) !!}
  @error('size')
         <span class="text-danger">{{ $message }}</span>
@@ -93,7 +93,7 @@
 </div>
 <!-- penalty Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('penalty', 'Plot penalty:') !!}
+    {!! Form::label('penalty', 'Farm penalty:') !!}
     {!! Form::text('penalty', null, ['class' => 'form-control', 'maxlength' => 60, 'maxlength' => 60]) !!}
 </div>
 <!-- Submit Field -->

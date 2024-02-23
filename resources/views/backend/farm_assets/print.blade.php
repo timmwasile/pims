@@ -137,8 +137,8 @@ tr:nth-child(even) {
 
                 <div class="column" >
                     <div class="w3-container  w3-cell">
-                        <p>Plot Size :  {{ $query->size }}sqm</p>
-                        <p>Plot Number :  {{ $query->map_number }}</p>
+                        <p>Farm Size :  {{ $query->size }}sqm</p>
+                        <p>Farm Number :  {{ $query->map_number }}</p>
                         <p>Printed At :  {{ date('y-m-d h:m:sa') }}</p>
                     </div>
                 </div>

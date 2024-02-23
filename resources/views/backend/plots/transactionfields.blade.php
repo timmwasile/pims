@@ -79,7 +79,7 @@
 <!-- location Phone Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('file_name', 'Office Attachement :') !!}
-    {!! Form::file('file_name', null, ['class' => 'form-control' ]) !!}
+    {!! Form::file('file_name', ['class' => 'form-control', 'required' => true, 'maxlength' => 1000000]) !!}
 </div>
 
  {{-- <div class="form-group">
