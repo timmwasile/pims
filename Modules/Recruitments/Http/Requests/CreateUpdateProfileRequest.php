@@ -14,14 +14,15 @@ class CreateUpdateProfileRequest extends FormRequest
 
      protected function prepareForValidation()
     {
-       
+
         $this->merge([
+            'company_id' => auth()->user()->company_id,
             'password' => $this->password,
             'new_password' => $this->new_password,
             'confirm_password' => $this->confirm_password,
         ]);
 
-       
+// dd($this);
     }
 
     /**
@@ -39,8 +40,11 @@ class CreateUpdateProfileRequest extends FormRequest
      *
      * @return array
      */
-    // public function rules()
-    // {
-    //     return Admin::$rules;
-    // }
+    public function rules()
+    {
+        return  [
+            'new_password' => 'required|string|min:8|max:48',
+            'confirm_password' => 'required|string|min:8|max:48'
+            ];
+    }
 }

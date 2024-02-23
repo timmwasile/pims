@@ -21,7 +21,9 @@ use Modules\Admins\Http\Repositories\AdminRepository;
 use Modules\Admins\Http\Requests\UpdateAdminRequest;
 use Modules\Recruitments\Entities\Role;
 use Modules\Recruitments\Http\Requests\CreateUpdateProfileRequest;
-use Password;
+use Illuminate\Support\Facades\Password;
+
+// use Password;
 use Session;
 use Validator;
 
@@ -44,6 +46,7 @@ class AdminController extends AppBaseController
      */
     public function index(AdminDataTable $adminDataTable)
     {
+
         return $adminDataTable->render('backend.admins.index');
     }
 
@@ -193,16 +196,19 @@ class AdminController extends AppBaseController
         return redirect(route('admin.admins.index'));
     }
 
+
+
     /**
-     * Send the reset password email to the user.
-     *
-     * @param  Admin                              $admin
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function sendResetLinkEmail($email)
-    {
-        Password::broker()->sendResetLink(['email' => $email]);
-    }
+ * Send the reset password email to the user.
+ *
+ * @param  string  $email
+ * @return void
+ */
+public function sendResetLinkEmail($email)
+{
+    Password::broker()->sendResetLink(['email' => $email]);
+}
+
     /**
      * Trigger password reset based on admins email.
      *
@@ -213,30 +219,12 @@ class AdminController extends AppBaseController
     public function passwordReset(Admin $admin)
     {
 
+
         $this->sendResetLinkEmail($admin->email);
 
         return back()->with('success', 'Password reset sent successfully!');
     }
-/**
-     * SMS notification on admins email.
-     *
-     * @param \App\Models\Admin $admin Admin
-     *
-     * @return \Illuminate\Http\Response
-     */
-     public function sendSmsNotificaition()
-    {
-        // $basic  = new \Nexmo\Client\Credentials\Basic('739b5079', 'xgicxI1zuXDcUEl8');
-        // $client = new \Nexmo\Client($basic);
- 
-        // $message = $client->message()->send([
-        //     'to' => '9197171****',
-        //     'from' => 'John Doe',
-        //     'text' => 'A simple hello message sent from Vonage SMS API'
-        // ]);
- 
-        dd('SMS message has been delivered.');
-    }
+
 
     /**
      * Show the form for creating a new admin.
@@ -273,7 +261,7 @@ class AdminController extends AppBaseController
              Auth::logout();
             return redirect()->route('login');
             }
-        
-        
+
+
     }
 }

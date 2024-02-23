@@ -13,12 +13,12 @@
         'onclick' => "return confirm('Are you sure?')",
     ]) !!}
 @endcan
-    
+
 </div>
 {!! Form::close() !!}
 
 <form action="{{ route('admin.admins.passwordReset', $id) }}" method="POST"
-    onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+    onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: none">
     @csrf
     <input type="submit" class="btn btn-xs btn-dark my-1" value="{{ trans('global.reset_password') }}">
 </form>

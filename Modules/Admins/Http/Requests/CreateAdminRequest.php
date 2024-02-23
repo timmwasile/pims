@@ -23,7 +23,6 @@ class CreateAdminRequest extends FormRequest
             'password' => Hash::make('password')
         ]);
 
-        // dd($this);
 
     }
 

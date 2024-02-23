@@ -1,6 +1,6 @@
 <div class="row">
   <div class="column" style="background-color:#aaa;">
-   
+
 <!-- First Name Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('name', 'FullName:') !!}
@@ -29,7 +29,7 @@
 
   </div>
   <div class="form-group column" style="background-color:#bbb;">
-  
+
 
               @if ($errors->any())
                     <div class="alert alert-danger p-0">
@@ -41,37 +41,38 @@
                     </div>
                 @endif
 
-               
+
 
                 <div class="form-group">
                     <div class="d-block">
                         <label for="new_password" class="control-label">
                            New new_password
                         </label>
-                      
+
                     </div>
                     <input aria-describedby="new_passwordHelpBlock" id="new_password" type="password"
                         value="{{ Cookie::get('new_password') !== null ? Cookie::get('new_password') : null }}"
                         placeholder="Enter Password" class="form-control{{ $errors->has('new_password') ? ' is-invalid' : '' }}"
-                        name="new_password" tabindex="2" required>
-                    <div class="invalid-feedback">
-                        {{ $errors->first('new_password') }}
-                    </div>
+                        name="new_password" tabindex="2" required min="8">
+                        @error('new_password')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                </div>
 
                     <div class="form-group">
                     <div class="d-block">
                         <label for="confirm_password" class="control-label">
                             confirm_Password
                         </label>
-                      
+
                     </div>
                     <input aria-describedby="confirm_passwordHelpBlock" id="confirm_password" type="password"
                         value="{{ Cookie::get('confirm_password') !== null ? Cookie::get('confirm_password') : null }}"
                         placeholder="Confirm Password" class="form-control{{ $errors->has('confirm_password') ? ' is-invalid' : '' }}"
-                        name="confirm_password" tabindex="2" required>
-                    <div class="invalid-feedback">
-                        {{ $errors->first('confirm_password') }}
-                    </div>
+                        name="confirm_password" tabindex="2" required min="8">
+                        @error('confirm_password')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
                 </div>
   </div>
 

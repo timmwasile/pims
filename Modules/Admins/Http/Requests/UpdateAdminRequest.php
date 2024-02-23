@@ -13,7 +13,7 @@ class UpdateAdminRequest extends FormRequest
 
         $this->merge([
             'name' => Str::lower($this->name),
-            'company_id' => $this->company_id,
+            'company_id' => auth()->user()->company_id,
             'email' => Str::lower($this->email),
             'username' => Str::lower($this->email),
             'gender' => Str::lower($this->gender),

@@ -18,12 +18,23 @@ class AdminDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        
-        if(auth()->user()->id !=1){
-             $dataTable = new EloquentDataTable($query->where('company_id',auth()->user()->company_id));
-            
+        $roles = Admin::whereHas('roles',
+        function ($q){
+            $q->where('admin_role.role_id',3)->where('admins.id', auth()->user()->id);
+        })->count();
+
+        // dd($roles);
+
+
+        if(auth()->user()->id !=1 && $roles==1){
+             $dataTable = new EloquentDataTable($query->where('company_id',auth()->user()->company_id)->where('id',auth()->user()->id));
+
+        }elseif(auth()->user()->id !=1 && $roles==0){
+            $dataTable = new EloquentDataTable($query->where('company_id',auth()->user()->company_id));
+
+
         }
-       
+
      $dataTable = new EloquentDataTable($query);
 
         return $dataTable
@@ -31,7 +42,7 @@ class AdminDataTable extends DataTable
             ->editColumn('name', function ($request) {
                 return $request->name ? ucwords($request->name) : 'N/A';
             })
-            
+
             ->editColumn('email', function ($request) {
                 return $request->email ? $request->email : 'N/A';
             })

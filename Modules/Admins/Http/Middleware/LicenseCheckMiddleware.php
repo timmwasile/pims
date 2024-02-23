@@ -21,9 +21,10 @@ class LicenseCheckMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        
+
+
        $response = $next($request);
-        $status = License::where("licenses.company_id", auth()->user()->company_id)
+        $status = License::where("company_id", auth()->user()->company_id)
                                 ->first()->status_id;
 
         if ($status == 0 || !$status) {
@@ -36,5 +37,5 @@ class LicenseCheckMiddleware
         }
         return $response;
     }
-    
+
 }
