@@ -24,10 +24,10 @@
         @enderror
 </div>
 <div class="form-group col-sm-6">
-    <label  for="myCheck">{{ trans('cruds.plot.fields.is_cash_payment') }}</label> 
+    <label  for="myCheck">{{ trans('cruds.plot.fields.is_cash_payment') }}</label>
             <label class="switch">
                 <input type="checkbox" class="bg-light" data-on="YES" name="is_cash_payment"
-                        data-off="NO" data-size="medium" 
+                        data-off="NO" data-size="medium"
                         data-onstyle="success"
                         data-offstyle="light"><span class="slider round hide-off"></a></span></label>
 
@@ -37,7 +37,7 @@
 $(document).ready(function(){
 	$(".switch input").on("change", function(e) {
   	const isOn = e.currentTarget.checked;
-    
+
     if (isOn) {
     	$(".hideme").show();
     } else {
@@ -53,13 +53,13 @@ $(document).ready(function(){
     width: 60px;
     height: 34px;
   }
-  
-  .switch input { 
+
+  .switch input {
     opacity: 0;
     width: 0;
     height: 0;
   }
-  
+
   .slider {
     position: absolute;
     cursor: pointer;
@@ -71,7 +71,7 @@ $(document).ready(function(){
     -webkit-transition: .4s;
     transition: .4s;
   }
-  
+
   .slider:before {
     position: absolute;
     content: "";
@@ -83,26 +83,26 @@ $(document).ready(function(){
     -webkit-transition: .4s;
     transition: .4s;
   }
-  
+
   input:checked + .slider {
     background-color: #2196F3;
   }
-  
+
   input:focus + .slider {
     box-shadow: 0 0 1px #2196F3;
   }
-  
+
   input:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
   }
-  
+
   /* Rounded sliders */
   .slider.round {
     border-radius: 34px;
   }
-  
+
   .slider.round:before {
     border-radius: 50%;
   }
@@ -172,7 +172,7 @@ $(document).ready(function(){
         @enderror
 </div>
 
-<div class="form-group col-sm-6 hideme" id="reference" style="display: none;"> 
+<div class="form-group col-sm-6 hideme" id="reference" style="display: none;">
     {!! Form::label('reference', 'reference:') !!}
     {!! Form::text('reference', null, ['class' => 'form-control', 'maxlength' => 120 ]) !!}
  @error('reference')
@@ -180,88 +180,12 @@ $(document).ready(function(){
         @enderror
 </div>
 
-<!-- location Phone Field -->
+
+
 <div class="form-group col-sm-6">
-    {!! Form::label('file_name', 'Office Attachemnte :') !!}
-    {!! Form::file('file_name', null, ['class' => 'form-control' ]) !!}
+    {!! Form::label('file_name', 'Office Attachment:') !!}
+    {!! Form::file('file_name', ['class' => 'form-control', 'required' => true, 'maxlength' => 1000000]) !!}
 </div>
-              {{-- <div class="form-group">
-                    <label class="required" for="permits">Attachment</label>
-                    <div class="needsclick dropzone {{ $errors->has('permits') ? 'is-invalid' : '' }}"
-                        id="permits-dropzone">
-                    </div>
-                    @if ($errors->has('permits'))
-                        <div class="invalid-feedback">
-                            {{ $errors->first('permits') }}
-                        </div>
-                    @endif
-                    <span class="help-block"></span>
-                </div>
-
-
-
-@section('scripts')
-<script src="{{ asset('backend/assets/js/bootstrap-toggle.min.js') }}"></script>
- 
-    <script>
-        var uploadedPermitsMap = {}
-        Dropzone.options.permitsDropzone = {
-            url: '{{ route('admin.plots.storeMedia') }}',
-            maxFilesize: 1, // MB
-            addRemoveLinks: true,
-            headers: {
-                'X-CSRF-TOKEN': "{{ csrf_token() }}"
-            },
-            params: {
-                size: 1
-            },
-            success: function(file, response) {
-                $('form').append('<input type="hidden" name="permits" value="' + response.name + '">')
-                uploadedPermitsMap[file.name] = response.name
-            },
-            removedfile: function(file) {
-                file.previewElement.remove()
-                var name = ''
-                if (typeof file.file_name !== 'undefined') {
-                    name = file.file_name
-                } else {
-                    name = uploadedPermitsMap[file.name]
-                }
-                $('form').find('input[name="permits"][value="' + name + '"]').remove()
-            },
-            init: function() {
-                @if (isset($plot) && $plot->permits)
-                    var files =
-                        {!! json_encode($plot->permits) !!}
-                    for (var i in files) {
-                        var file = files[i]
-                        this.options.addedfile.call(this, file)
-                        file.previewElement.classList.add('dz-complete')
-                        $('form').append('<input type="hidden" name="permits" value="' + file.file_name + '">')
-                    }
-                @endif
-            },
-            error: function(file, response) {
-                if ($.type(response) === 'string') {
-                    var message = response //dropzone sends it's own error messages in string
-                } else {
-                    var message = response.errors.file
-                }
-                file.previewElement.classList.add('dz-error')
-                _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
-                _results = []
-                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                    node = _ref[_i]
-                    _results.push(node.textContent = message)
-                }
-
-                return _results
-            }
-        }
-    </script>
-
-  
-@endsection --}}
 
 
 <!-- Submit Field -->

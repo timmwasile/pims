@@ -180,88 +180,12 @@ $(document).ready(function(){
         @enderror
 </div>
 
-<!-- location Phone Field -->
+
+
 <div class="form-group col-sm-6">
-    {!! Form::label('file_name', 'Receipt :') !!}
-    {!! Form::file('file_name', null, ['class' => 'form-control' ]) !!}
+    {!! Form::label('file_name', 'Office Attachment:') !!}
+    {!! Form::file('file_name', ['class' => 'form-control', 'required' => true, 'maxlength' => 1000000]) !!}
 </div>
-              {{-- <div class="form-group">
-                    <label class="required" for="permits">Attachment</label>
-                    <div class="needsclick dropzone {{ $errors->has('permits') ? 'is-invalid' : '' }}"
-                        id="permits-dropzone">
-                    </div>
-                    @if ($errors->has('permits'))
-                        <div class="invalid-feedback">
-                            {{ $errors->first('permits') }}
-                        </div>
-                    @endif
-                    <span class="help-block"></span>
-                </div>
-
-
-
-@section('scripts')
-<script src="{{ asset('backend/assets/js/bootstrap-toggle.min.js') }}"></script>
-
-    <script>
-        var uploadedPermitsMap = {}
-        Dropzone.options.permitsDropzone = {
-            url: '{{ route('admin.farm_assets.storeMedia') }}',
-            maxFilesize: 1, // MB
-            addRemoveLinks: true,
-            headers: {
-                'X-CSRF-TOKEN': "{{ csrf_token() }}"
-            },
-            params: {
-                size: 1
-            },
-            success: function(file, response) {
-                $('form').append('<input type="hidden" name="permits" value="' + response.name + '">')
-                uploadedPermitsMap[file.name] = response.name
-            },
-            removedfile: function(file) {
-                file.previewElement.remove()
-                var name = ''
-                if (typeof file.file_name !== 'undefined') {
-                    name = file.file_name
-                } else {
-                    name = uploadedPermitsMap[file.name]
-                }
-                $('form').find('input[name="permits"][value="' + name + '"]').remove()
-            },
-            init: function() {
-                @if (isset($plot) && $plot->permits)
-                    var files =
-                        {!! json_encode($plot->permits) !!}
-                    for (var i in files) {
-                        var file = files[i]
-                        this.options.addedfile.call(this, file)
-                        file.previewElement.classList.add('dz-complete')
-                        $('form').append('<input type="hidden" name="permits" value="' + file.file_name + '">')
-                    }
-                @endif
-            },
-            error: function(file, response) {
-                if ($.type(response) === 'string') {
-                    var message = response //dropzone sends it's own error messages in string
-                } else {
-                    var message = response.errors.file
-                }
-                file.previewElement.classList.add('dz-error')
-                _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
-                _results = []
-                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                    node = _ref[_i]
-                    _results.push(node.textContent = message)
-                }
-
-                return _results
-            }
-        }
-    </script>
-
-
-@endsection --}}
 
 
 <!-- Submit Field -->
