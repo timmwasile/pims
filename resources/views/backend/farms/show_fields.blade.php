@@ -27,8 +27,8 @@
 
 <!-- size Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('size', 'farm Size (sqm):') !!}
-   <div class = 'form-control'> {{ number_format($farm->size).' Square Meter' }}</div>
+    {!! Form::label('size', 'farm Size (Acres):') !!}
+   <div class = 'form-control'> {{ number_format($farm->size).' Acres' }}</div>
 </div>
 
 

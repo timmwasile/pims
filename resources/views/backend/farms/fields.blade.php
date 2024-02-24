@@ -42,7 +42,7 @@
 <!-- size Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('size', 'Total farm Size in Acre:') !!}
-    {!! Form::text('size', null, ['class' => 'form-control number-separator', 'maxlength' => 60, 'maxlength' => 60, 'placeholder'=>'Total farm Size in SQM']) !!}
+    {!! Form::text('size', null, ['class' => 'form-control number-separator', 'maxlength' => 60, 'maxlength' => 60, 'placeholder'=>'Total farm Size in Acres']) !!}
     @error('size')
     <span class="text-danger">{{ $message }}</span>
     @enderror

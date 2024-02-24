@@ -118,14 +118,14 @@ if($request->payment_id < 3){
     $data = FarmAsset::where('id',$farm->id)->first();
         $customer = Customer::where('id',$data->customer_id)->first();
 
-        $farm = Farm::where('id',$data->project_id)->first();
+        $farmProject = Farm::where('id',$data->project_id)->first();
         $inserts = [
             'created_by'=>auth()->user()->id,
             'amount'=>floatval(preg_replace("/[^-0-9\.]/","",$data->paid_amount)),
             'customer_id'=>$data->customer_id,
             'company_id'=>$data->company_id,
             'customer'=>$customer->name,
-            'project'=>$farm->name,
+            'project'=>$farmProject->name,
             'description'=>$data->description,
             'payment_date'=>$data->created_at,
             'reference'=>$request->reference,

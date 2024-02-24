@@ -65,7 +65,7 @@
 </div>
 <div class="form-group col-sm-6">
     {!! Form::label('payment_date', 'Payment Date:') !!}
-    {!! Form::text('payment_date', null, ['class' => 'form-control', 'id' => 'started_at', 'autocomplete'=>'off', required]) !!}
+    {!! Form::text('payment_date', null, ['class' => 'form-control', 'id' => 'started_at', 'autocomplete'=>'off','required' => true]) !!}
      @error('payment_date')
         <span class="text-danger">{{ $message }}</span>
         @enderror

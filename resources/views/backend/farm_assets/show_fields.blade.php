@@ -83,9 +83,20 @@
                         <tr>
                             <th colspan="4" >List of Transaction</th>
                             <th colspan="5" >
-                                <p><strong>Customer FullNames : </strong>{{ ucwords($transactions[0]->customer) }}</p>
-                                <p><strong>Project : </strong>{{ ucwords($transactions[0]->project) }}</p>
-                                <p><strong>Number : </strong>{{ ucwords($transactions[0]->farm) }}</p>
+                                @if (count($transactions) > 0)
+
+                                <p><strong>Customer FullNames : </strong>{{ isset($transactions[0]->customer) ? ucwords($transactions[0]->customer) : 'N/A' }}</p>
+
+                                <p><strong>Project : </strong>{{ isset($transactions[0]->project) ? ucwords($transactions[0]->project) : 'N/A' }}</p>
+
+                                <p><strong>Number : </strong>{{ isset($transactions[0]->farm) ? ucwords($transactions[0]->farm) : 'N/A' }}</p>
+
+                            @else
+
+                                <p>No transaction information available.</p>
+
+                            @endif
+
                             </th>
                         </tr>
                         </tbody>
