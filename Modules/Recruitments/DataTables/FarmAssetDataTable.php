@@ -28,10 +28,22 @@ class FarmAssetDataTable extends DataTable
         // $dataTable = new EloquentDataTable($query);
 
 
-        if($role==3){       //account administrator
-        $dataTable = new EloquentDataTable($query->where('created_by',auth()->user()->id)->orwhere('company_id',auth()->user()->company_id));
-        }
-        $dataTable = new EloquentDataTable($query->where('company_id',auth()->user()->company_id));
+        // if($role==3){       //account administrator
+        // $dataTable = new EloquentDataTable($query->where('created_by',auth()->user()->id)->orwhere('company_id',auth()->user()->company_id));
+        // }
+        $dataTable = new EloquentDataTable($query->with(['farmId' => function ($query) {
+            $query->whereNull('deleted_at'); // Exclude deleted projects
+        }])->whereHas('farmId', function ($query) {
+            $query->whereNull('deleted_at'); // Exclude plots associated with deleted customers
+        })
+            ->with(['customerId' => function ($query) {
+                $query->whereNull('deleted_at'); // Exclude deleted customers
+            }])
+            ->whereHas('customerId', function ($query) {
+                $query->whereNull('deleted_at'); // Exclude plots associated with deleted customers
+            })
+
+        ->where('company_id',auth()->user()->company_id));
 
         return $dataTable
             ->addIndexColumn()
@@ -117,7 +129,7 @@ class FarmAssetDataTable extends DataTable
      */
     public function query(FarmAsset $model)
     {
-        return $model->newQuery()->with(['customerId']);
+        return $model->newQuery()->with(['customerId','farmId']);
     }
 
     /**
