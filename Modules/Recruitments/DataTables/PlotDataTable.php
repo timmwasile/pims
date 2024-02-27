@@ -27,10 +27,29 @@ class PlotDataTable extends DataTable
         // $dataTable = new EloquentDataTable($query);
 
 
-        if($role==3){       //account administrator
-        $dataTable = new EloquentDataTable($query->where('created_by',auth()->user()->id)->orwhere('company_id',auth()->user()->company_id));
-        }
-        $dataTable = new EloquentDataTable($query->where('company_id',auth()->user()->company_id));
+        // if(!$role == 10){       //account administrator
+        // $dataTable = new EloquentDataTable($query);
+        // // $dataTable = new EloquentDataTable($query->where('created_by',auth()->user()->id)->orwhere('company_id',auth()->user()->company_id));
+        // }
+
+        // $dataTable = new EloquentDataTable($query->with(['customerId' => function ($query) {
+        //     $query->whereNull('deleted_at'); // Exclude deleted customers
+        // }])->where('company_id',auth()->user()->company_id));
+
+        $dataTable = new EloquentDataTable(
+            $query->with(['projectId' => function ($query) {
+                $query->whereNull('deleted_at'); // Exclude deleted projects
+            }])->whereHas('projectId', function ($query) {
+                $query->whereNull('deleted_at'); // Exclude plots associated with deleted customers
+            })
+                ->with(['customerId' => function ($query) {
+                    $query->whereNull('deleted_at'); // Exclude deleted customers
+                }])
+                ->whereHas('customerId', function ($query) {
+                    $query->whereNull('deleted_at'); // Exclude plots associated with deleted customers
+                })
+                ->where('company_id', auth()->user()->company_id)
+        );
 
         return $dataTable
             ->addIndexColumn()
@@ -39,7 +58,7 @@ class PlotDataTable extends DataTable
         $timely_payment = $data->mpa*$data->month_remaining;
         return $timely_payment < $data->balance ? 'background-color: yellow;' : 'background-color: default;';
     },
-]) 
+])
             ->editColumn('created_by', function ($request) {
                 return $request->createdBy ? ucwords($request->name) : 'N/A';
             })
@@ -58,7 +77,7 @@ class PlotDataTable extends DataTable
             ->editColumn('status_id', function ($request) {
                 return $request->status_id ==0 && $request->balance==0  ? "Completed": 'Not Completed';
             })
-            
+
              ->editColumn('duration', function ($request) {
                 return $request->duration >1 ? $request->duration.' Months' : ' N/A';
             })
@@ -100,7 +119,7 @@ class PlotDataTable extends DataTable
         ->filterColumn('marketing_officer_id', function ($query, $keyword) {
         $query->where('marketing_officer_id', 'like', "%{$keyword}%");
             })
-            
+
             // ->rawColumns(['marketing_officer_id'])
             ->addColumn('action', 'backend.plots.datatables_actions')
             // ->make(true)
@@ -115,8 +134,8 @@ class PlotDataTable extends DataTable
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Plot $model)
-    { 
-        return $model->newQuery()->with(['customerId']);
+    {
+        return $model->newQuery()->with(['customerId','projectId']);
     }
 
     /**
@@ -144,7 +163,7 @@ class PlotDataTable extends DataTable
                     ['extend' => 'reset', 'className' => 'btn btn-dark btn-sm no-corner'],
                     ['extend' => 'reload', 'className' => 'btn btn-outline-dark btn-sm no-corner'],
                 ],
-       
+
 ]);
     }
 
@@ -161,7 +180,7 @@ class PlotDataTable extends DataTable
                 'name'  => 'id',
                 'title' => 'S/No',
             ]),
-            
+
             'map_number' => new Column([
                 'data'  => 'map_number',
                 'name'  => 'map_number',
@@ -189,7 +208,7 @@ class PlotDataTable extends DataTable
                 'name'  => 'to_be_paid_amount',
                 'title' => 'To be Paid',
             ]),
-            
+
              'balance' => new Column([
                 'data'  => 'balance',
                 'name'  => 'balance',
@@ -226,7 +245,7 @@ class PlotDataTable extends DataTable
                 'title' => 'Officer Name',
                 'searchable'=> true
             ]),
-             
+
         ];
     }
 
