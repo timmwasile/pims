@@ -176,26 +176,43 @@ if($request->payment_id < 3){
     abort_if(Gate::denies('plot_view'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
     $farm = $this->FarmAssetRepository->find($id);
+    // dd($id);
 
-    $transactions = Transaction::with('receipt')->select('transactions.number as transaction_number', 'transactions.amount as amount',
-     'transactions.payment_date as payment_date',
-     'transactions.description as description',
-     'transactions.reference as reference',
-     'customers.name as customer',
-     'farms.name as project',
-     'farm_assets.number as farm',
-     'media.file_name as file_name',
-     'transactions.id as id',
-     'media.id as media_id'
-     )
-        ->leftJoin('farms', 'farms.id', '=', 'transactions.project_id')
-        ->leftJoin('farm_assets', 'farm_assets.id', '=', 'transactions.plot_id')
-        ->leftJoin('customers', 'customers.id', '=', 'transactions.customer_id')
-        ->leftJoin('media', 'media.number', '=', 'transactions.id')
-        ->where('transactions.plot_id', $id)
-        ->orderBy('transactions.id', 'desc')
-        ->get();
+    // $transactions = Transaction::with('receipt')->select('transactions.number as transaction_number', 'transactions.amount as amount',
+    //  'transactions.payment_date as payment_date',
+    //  'transactions.description as description',
+    //  'transactions.reference as reference',
+    //  'customers.name as customer',
+    //  'farms.name as project',
+    //  'farm_assets.number as farm',
+    //  'media.file_name as file_name',
+    //  'transactions.id as id',
+    //  'media.id as media_id'
+    //  )
+    //     ->leftJoin('farms', 'farms.id', '=', 'transactions.project_id')
+    //     ->leftJoin('farm_assets', 'farm_assets.id', '=', 'transactions.plot_id')
+    //     ->leftJoin('customers', 'customers.id', '=', 'transactions.customer_id')
+    //     ->leftJoin('media', 'media.number', '=', 'transactions.id')
+    //     ->where('transactions.plot_id', $id)
+    //     ->orderBy('transactions.id', 'desc')
+    //     ->get();
 
+    $transactions = Transaction::with('receipt')
+    ->select('transactions.number as transaction_number', 'transactions.amount as amount',
+        'transactions.payment_date as payment_date', 'transactions.description as description',
+        'transactions.reference as reference', 'customers.name as customer',
+        'farms.name as project', 'farm_assets.number as farm',
+        'media.file_name as file_name', 'transactions.id as id', 'media.id as media_id')
+    ->leftJoin('farms', 'farms.id', '=', 'transactions.project_id')
+    ->leftJoin('farm_assets', 'farm_assets.id', '=', 'transactions.plot_id')
+    ->leftJoin('customers', 'customers.id', '=', 'transactions.customer_id')
+    ->leftJoin('media', 'media.number', '=', 'transactions.id')
+    ->where('transactions.plot_id', $id)
+    ->where('transactions.company_id', auth()->user()->company_id)
+    ->orderBy('transactions.id', 'desc')
+    ->groupBy('transactions.id') // Group by transaction ID to ensure uniqueness
+
+    ->get();
 
 
     if (empty($farm)) {

@@ -89,7 +89,7 @@
 
                                 <p><strong>Project : </strong>{{ isset($transactions[0]->project) ? ucwords($transactions[0]->project) : 'N/A' }}</p>
 
-                                <p><strong>Number : </strong>{{ isset($transactions[0]->farm) ? ucwords($transactions[0]->farm) : 'N/A' }}</p>
+                                <p><strong>Farm Number : </strong>{{ isset($transactions[0]->farm) ? ucwords($transactions[0]->farm) : 'N/A' }}</p>
 
                             @else
 

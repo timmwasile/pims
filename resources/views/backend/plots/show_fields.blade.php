@@ -85,7 +85,7 @@
                                 <th colspan="5" >
                                     <p><strong>Customer FullNames : </strong>{{ ucwords($transactions[0]->customer) }}</p>
                                     <p><strong>Project : </strong>{{ ucwords($transactions[0]->project) }}</p>
-                                    <p><strong>Number : </strong>{{ ucwords($transactions[0]->farm) }}</p>
+                                    <p><strong>Plot Number : </strong>{{ ucwords($transactions[0]->plot) }}</p>
                                 </th>
                             </tr>
                         </tbody>
@@ -97,9 +97,6 @@
                             <th scope="col">Amount Paid</th>
                             <th scope="col">Description </th>
                             <th scope="col">Reference Number</th>
-                            {{-- <th scope="col">Customer Full Name</th>
-                            <th scope="col">Project Name</th>
-                            <th scope="col">Plot Number</th> --}}
                             <th scope="col">Download</th>
                         </tr>
                     </thead>
@@ -110,33 +107,30 @@
                            $total = 0;
                         @endphp
 
-                        @foreach($transactions as $transaction)
-                           <tr>
-                                <td scope="col" align="left">{{ $no}} </td>
-                                <td scope="col" >{{ ucwords($transaction->transaction_number) }}</td>
-                                <td scope="col" >{{ $transaction->payment_date }}</td>
-                                <td scope="col" >{{ number_format($transaction->amount,2)."/=" }}</td>
-                                <td scope="col" >{{ ucwords($transaction->description) }}</td>
-                                <td scope="col" >{{ ucwords($transaction->reference?$transaction->reference:"N/A") }}</td>
-                                {{-- <td scope="col" >{{ ucwords($transaction->customer) }}</td>
-                                <td scope="col" >{{ ucwords($transaction->project) }}</td>
-                                <td scope="col" >{{ ucwords($transaction->plot) }}</td> --}}
-                                <td scope="col">
-                                @if ($transaction->receipt)
-                                <a target="_blank" href="{{ $transaction ? asset('storage/' . $transaction->media_id . '/' . $transaction->receipt->file_name) : '#' }}">Download</a>
-    @else
-
-        No receipt available
-
-    @endif</td>
-                                {{-- <td scope="col"><a target="_blank" href="{{ $transaction ? asset('storage/' . $transaction->media_id . '/' . $transaction->receipt->file_name) : '#' }}">Download</a></td> --}}
-
-                            </tr>
-                            @php
-                            $no++;
-                            $total += $transaction->amount;
-                            @endphp
-                        @endforeach
+@foreach($transactions as $transaction)
+{{-- Debugging: Print out transaction data --}}
+{{-- {{ dd($transaction) }} --}}
+{{-- Your existing code for table rows --}}
+<tr>
+    <td scope="col" align="left">{{ $no }} </td>
+    <td scope="col">{{ ucwords($transaction->transaction_number) }}</td>
+    <td scope="col">{{ $transaction->payment_date }}</td>
+    <td scope="col">{{ number_format($transaction->amount, 2)."/=" }}</td>
+    <td scope="col">{{ ucwords($transaction->description) }}</td>
+    <td scope="col">{{ ucwords($transaction->reference ? $transaction->reference : "N/A") }}</td>
+    <td scope="col">
+        @if ($transaction->receipt)
+            <a target="_blank" href="{{ $transaction ? asset('storage/' . $transaction->media_id . '/' . $transaction->receipt->file_name) : '#' }}">Download</a>
+        @else
+            No receipt available
+        @endif
+    </td>
+</tr>
+@php
+    $no++;
+    $total += $transaction->amount;
+@endphp
+@endforeach
                             <tr>
                                 <td colspan="10"left align="" ><strong>Total Amount paid {{ number_format($total,2)}}/=<strong></td>
                             </tr>

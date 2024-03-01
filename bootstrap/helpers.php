@@ -48,30 +48,29 @@ function randGenerator(string $type, int $id): string
  */
 function plotNumber(string $type, int $id): string
 {
-    $plot_details = Plot::where('id',$id)->first();
-    $project=Project::where('id',$plot_details->project_id)->first();
-    $company=Company::where('id',$plot_details->company_id)->first()->name;
-    $starter = str_pad($project->id, 3, '0', STR_PAD_LEFT). substr(strtoupper($project->initial), 0, 3);
+    $plot_details = Plot::where('id', $id)->first();
+    $project = Project::where('id', $plot_details->project_id)->first();
+    $company = Company::where('id', $plot_details->company_id)->first()->name;
+    $starter = str_pad($project->id, 3, '0', STR_PAD_LEFT) . substr(strtoupper($project->initial), 0, 3);
 
     $admin = Admin::where('id', auth()->user()->id)->with('companyId')->first();
     $company = $admin->companyId->name;
-    $count=Plot::where('company_id',$admin->companyId->id)->get()->count();
-    $count=$count++;
+    $count = Plot::where('company_id', $admin->companyId->id)->get()->count();
+    $count++;
 
     $end = str_pad($count, 4, '0', STR_PAD_LEFT);
 
     switch (strtolower($type)) {
         case 'plot_number':
-            return strtoupper($starter .'-'.substr($company,0,3).'-P-'. $end);
-
+            return strtoupper($starter . '-' . substr($company, 0, 3) . '-P-' . $end);
             break;
 
         default:
-            return strtoupper($starter .'-'.substr($company,0,3).'-P-'. $end);
-
+            return strtoupper($starter . '-' . substr($company, 0, 3) . '-P-' . $end);
             break;
     }
 }
+
 
 /**
  *  plot number generator using project/month/year/office Name and

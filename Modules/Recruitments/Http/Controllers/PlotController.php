@@ -169,17 +169,42 @@ if($request->payment_id < 3){
 
     $plot = $this->PlotRepository->find($id);
 
-    $transactions = Transaction::with('receipt')->select('transactions.number as transaction_number', 'transactions.amount as amount',
-     'transactions.payment_date as payment_date', 'transactions.description as description',
-     'transactions.reference as reference', 'customers.name as customer', 'projects.name as project',
-     'plots.number as plot', 'media.file_name as file_name', 'transactions.id as id', 'media.id as media_id')
-        ->leftJoin('projects', 'projects.id', '=', 'transactions.project_id')
-        ->leftJoin('plots', 'plots.id', '=', 'transactions.plot_id')
-        ->leftJoin('customers', 'customers.id', '=', 'transactions.customer_id')
-        ->leftJoin('media', 'media.number', '=', 'transactions.id')
-        ->where('transactions.plot_id', $id)
-        ->orderBy('transactions.id', 'desc')
-        ->get();
+    // $transactions = Transaction::with('receipt')->select('transactions.number as transaction_number', 'transactions.amount as amount',
+    //  'transactions.payment_date as payment_date', 'transactions.description as description',
+    //  'transactions.reference as reference', 'customers.name as customer', 'projects.name as project',
+    //  'plots.number as plot', 'media.file_name as file_name', 'transactions.id as id', 'media.id as media_id')
+    //     ->leftJoin('projects', 'projects.id', '=', 'transactions.project_id')
+    //     ->leftJoin('plots', 'plots.id', '=', 'transactions.plot_id')
+    //     ->leftJoin('customers', 'customers.id', '=', 'transactions.customer_id')
+    //     ->leftJoin('media', 'media.number', '=', 'transactions.id')
+    //     ->where('transactions.plot_id', $id)
+    //     ->orderBy('transactions.id', 'desc')
+    //     ->get();
+
+    $transactions = Transaction::with('receipt')
+    ->select(
+                'transactions.number as transaction_number',
+                'transactions.amount as amount',
+                'transactions.payment_date as payment_date',
+                'transactions.description as description',
+                'transactions.reference as reference',
+                'customers.name as customer',
+                'projects.name as project',
+                'plots.number as plot',
+                'media.file_name as file_name',
+                'transactions.id as id',
+                'media.id as media_id'
+                )
+    ->leftJoin('projects', 'projects.id', '=', 'transactions.project_id')
+    ->leftJoin('plots', 'plots.id', '=', 'transactions.plot_id')
+    ->leftJoin('customers', 'customers.id', '=', 'transactions.customer_id')
+    ->leftJoin('media', 'media.number', '=', 'transactions.id')
+    ->where('transactions.plot_id', $id)
+    ->where('transactions.company_id', auth()->user()->company_id)
+
+    ->orderBy('transactions.id', 'desc')
+    ->groupBy('transactions.id') // Group by transaction ID to ensure uniqueness
+    ->get();
 
 
 
