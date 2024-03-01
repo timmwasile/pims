@@ -110,7 +110,7 @@ public function registerMediaConversions(Media $media = null): void
         return $this->belongsTo(Customer::class, 'customer_id');
     }
     public function farmId(){
-        return $this->belongsTo(Farm::class, 'farm_id');
+        return $this->belongsTo(Farm::class, 'project_id');
     }
      public function paymentId(){
         return $this->belongsTo(Payment::class, 'payment_id');
