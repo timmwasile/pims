@@ -108,6 +108,7 @@ use MediaUploadingTrait;
         $plot->update(['number'=>plotNumber('plotNumber', $plot->id)]);
 if($request->payment_id < 3){
     $data = Plot::where('id',$plot->id)->first();
+
         $customer = Customer::where('id',$data->customer_id)->first();
 
         $project = Project::where('id',$data->project_id)->first();
@@ -165,6 +166,7 @@ if($request->payment_id < 3){
      */
    public function show($id)
 {
+
     abort_if(Gate::denies('plot_view'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
     $plot = $this->PlotRepository->find($id);
@@ -179,6 +181,7 @@ if($request->payment_id < 3){
     //     ->leftJoin('media', 'media.number', '=', 'transactions.id')
     //     ->where('transactions.plot_id', $id)
     //     ->orderBy('transactions.id', 'desc')
+    // ->groupBy('transactions.id')
     //     ->get();
 
     $transactions = Transaction::with('receipt')
