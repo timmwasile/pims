@@ -124,6 +124,7 @@ class TransactionController extends AppBaseController
      */
     public function destroy($id)
     {
+
         abort_if(Gate::denies('transaction_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $query=Transaction::where('id', $id)->get()->first();
         $plot= Plot::where('id',$query->plot_id)->first();

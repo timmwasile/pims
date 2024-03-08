@@ -9,3 +9,4 @@
 
     {!! $dataTable->scripts() !!}
 @endpush
+

@@ -398,8 +398,8 @@ $transaction = Transaction::where('plot_id', $id)->first()->update([
         abort_if(Gate::denies('plot_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $plot = $this->PlotRepository->find($id);
+
         $project=Plot::where('id',$id)->first();
-        // dd($project);
 
         if (empty($plot)) {
             Flash::error('plot not found');
@@ -408,6 +408,8 @@ $transaction = Transaction::where('plot_id', $id)->first()->update([
         }
 
         $this->PlotRepository->delete($id);
+        Transaction::where("plot", $plot->number)->update([
+            'deleted_at'=>date("Y-m-d h:m:s") ]);
         // Plot::where('id',$ixd)->update(['size'=>0]);
 
         Flash::success('plot deleted successfully.');

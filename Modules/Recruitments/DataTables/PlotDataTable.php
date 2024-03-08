@@ -156,6 +156,8 @@ class PlotDataTable extends DataTable
                 'processing' => true,
                 'serverSide' => true,
                 'searchable'=> true,
+                'lengthMenu'=> [ [10, 25, 50, 100], [10, 25, 50, 100] ],
+
                 'buttons'   => [
                     ['extend' => 'create', 'className' => 'btn btn-primary btn-sm no-corner'],
                     ['extend' => 'export', 'className' => 'btn btn-warning btn-sm no-corner'],

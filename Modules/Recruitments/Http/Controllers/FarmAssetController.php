@@ -409,6 +409,8 @@ if($request->payment_id < 3){
         }
 
         $this->FarmAssetRepository->delete($id);
+        Transaction::where("plot", $plot->number)->update([
+            'deleted_at'=>date("Y-m-d h:m:s") ]);
         Flash::success('plot deleted successfully.');
 
         return redirect(route('admin.farm_assets.index'));
