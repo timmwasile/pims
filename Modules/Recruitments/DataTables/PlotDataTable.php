@@ -150,13 +150,13 @@ class PlotDataTable extends DataTable
             ->minifiedAjax()
             ->addAction(['width' => '120px', 'printable' => false])
             ->parameters([
-                'dom'       => 'Bfrtip',
+                'dom'       => 'lBfrtip',
                 'stateSave' => true,
                 'order'     => [[0, 'desc']],
                 'processing' => true,
                 'serverSide' => true,
                 'searchable'=> true,
-                'lengthMenu'=> [ [10, 25, 50, 100], [10, 25, 50, 100] ],
+                // 'lengthMenu'=> [ [10, 25, 50, 100], [10, 25, 50, 100] ],
 
                 'buttons'   => [
                     ['extend' => 'create', 'className' => 'btn btn-primary btn-sm no-corner'],
